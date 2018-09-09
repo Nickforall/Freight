@@ -24,4 +24,17 @@ defmodule Freight.MixProject do
       {:absinthe, "~> 1.3"}
     ]
   end
+
+  defp description do
+    "Dynamically create Absinthe GraphQL payload objects for mutations 🚚💨"
+  end
+
+  defp package do
+    [
+      # These are the default files included in the package
+      files: ~w(lib priv .formatter.exs mix.exs README.md LICENSE CHANGELOG.md),
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/Nickforall/Freight"}
+    ]
+  end
 end
