@@ -50,14 +50,17 @@ defmodule Freight.Payload.ErrorPayload do
   # keyword lists, rejects normal lists
   defp convert_error(list) when is_list(list) do
     cond do
-      Keyword.keyword?(list) -> convert_error(list, :keywordlist)
-      true -> raise(
-        ArgumentError,
-        raise_message(
-          :error,
-          "Expected a keyword list, but got a plain list"
+      Keyword.keyword?(list) ->
+        convert_error(list, :keywordlist)
+
+      true ->
+        raise(
+          ArgumentError,
+          raise_message(
+            :error,
+            "Expected a keyword list, but got a plain list"
+          )
         )
-      )
     end
   end
 

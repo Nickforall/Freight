@@ -7,7 +7,8 @@ defmodule Freight.Payload do
     ErrorPayload.create_payload(tuple)
   end
 
-  def build_payload(_), do: raise ArgumentError, "Expected a tuple with either {:ok, _} or {:error, _}"
+  def build_payload(_),
+    do: raise(ArgumentError, "Expected a tuple with either {:ok, _} or {:error, _}")
 
   @doc """
   Defines a payload object type with a given name and fields
