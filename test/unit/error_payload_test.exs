@@ -19,7 +19,7 @@ defmodule Freight.UnitTests.ErrorPayloadTest do
     end
 
     test "with map" do
-      map = ErrorPayload.create_payload({:error, [%{message: "test? hello?"}]})
+      map = ErrorPayload.create_payload({:error, %{message: "test? hello?"}})
 
       assert Map.get(map, :errors) == ["test? hello?"]
       assert Map.get(map, :successful) == false

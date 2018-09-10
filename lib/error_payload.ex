@@ -1,4 +1,23 @@
 defmodule Freight.Payload.ErrorPayload do
+  @doc """
+  Manually generates a map representing a generic unsuccessful object.
+  All customized result fields will not be defined, and thus returned as nil
+
+  ## Usage
+
+    ```elixir
+      create_payload({:error, ["You are not signed in", "Something else"]})
+    ```
+
+    will return the following map
+
+    ```elixir
+    %{
+      successful: false,
+      errors: ["You are not signed in", "Something else"]
+    }
+    ```
+  """
   def create_payload({:error, string}) when is_binary(string) do
     error_payload([string])
   end
@@ -11,7 +30,7 @@ defmodule Freight.Payload.ErrorPayload do
   end
 
   def create_payload({:error, map}) when is_map(map) do
-    error_payload(convert_error(map))
+    error_payload([convert_error(map)])
   end
 
   # matches if none of the above match
