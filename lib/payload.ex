@@ -4,12 +4,14 @@ defmodule Freight.Payload do
   alias Freight.Payload.ErrorPayload
   alias Freight.Payload.SuccessPayload
 
-  def build_payload({:error, _} = tuple) do
-    ErrorPayload.create_payload(tuple)
+  def build_payload(%{value: value, errors: []} = resolution, _config) do
+    result = SuccessPayload.create_payload({:ok, value})
+    Absinthe.Resolution.put_result(resolution, {:ok, result})
   end
 
-  def build_payload({:ok, _} = tuple) do
-    SuccessPayload.create_payload(tuple)
+  def build_payload(%{errors: errors} = resolution, _config) do
+    result = ErrorPayload.create_payload({:error, errors})
+    Absinthe.Resolution.put_result(resolution, {:ok, result})
   end
 
   def build_payload(_),
