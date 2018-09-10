@@ -1,6 +1,14 @@
 defmodule Freight.Payload do
   use Absinthe.Schema.Notation
 
+  alias Freight.Payload.ErrorPayload
+
+  def build_payload({:error, _} = tuple) do
+    ErrorPayload.create_payload(tuple)
+  end
+
+  def build_payload(_), do: raise ArgumentError, "Expected a tuple with either {:ok, _} or {:error, _}"
+
   @doc """
   Defines a payload object type with a given name and fields
 
