@@ -44,7 +44,7 @@ defmodule FreightDemo.Resolver do
   def create_comment(_parent, %{body: body}, _context) do
     # your logic
 
-    {:ok, user: %{}, comment: %{}}
+    {:ok, author: %{}, comment: %{}}
   end
 
   # OR
