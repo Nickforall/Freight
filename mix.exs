@@ -9,7 +9,7 @@ defmodule Freight.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: description(),
-      package: package(),
+      package: package()
     ]
   end
 
@@ -34,7 +34,7 @@ defmodule Freight.MixProject do
   defp package do
     [
       # These are the default files included in the package
-      files: ~w(lib priv .formatter.exs mix.exs README.md LICENSE CHANGELOG.md),
+      files: ~w(lib .formatter.exs mix.exs README.md LICENSE CHANGELOG.md),
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/Nickforall/Freight"}
     ]
