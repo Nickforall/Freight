@@ -2,9 +2,14 @@ defmodule Freight.Payload do
   use Absinthe.Schema.Notation
 
   alias Freight.Payload.ErrorPayload
+  alias Freight.Payload.SuccessPayload
 
   def build_payload({:error, _} = tuple) do
     ErrorPayload.create_payload(tuple)
+  end
+
+  def build_payload({:ok, _} = tuple) do
+    SuccessPayload.create_payload(tuple)
   end
 
   def build_payload(_),
