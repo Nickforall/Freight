@@ -30,16 +30,23 @@ defmodule Freight.Payload do
   defmacro define_payload(name, fields \\ []) do
     quote do
       object unquote(name) do
-        field(:successful, type: :boolean, description: "Indicates whether the mutation completed successfully or not.")
-        field(:errors, type: list_of(:string), description: "A list of errors, raised when executing this migrations.")
+        field(:successful,
+          type: :boolean,
+          description: "Indicates whether the mutation completed successfully or not."
+        )
 
-        unquote do
+        field(:errors,
+          type: list_of(:string),
+          description: "A list of errors, raised when executing this migrations."
+        )
+
+        unquote(
           Enum.map(fields, fn {name, type_value} ->
             quote do
               field(unquote(name), type: unquote(type_value))
             end
           end)
-        end
+        )
       end
     end
   end
