@@ -49,4 +49,30 @@ defmodule Freight.UnitTests.ErrorPayloadTest do
       assert Map.get(map, :successful) == false
     end
   end
+
+  describe "error payload raises" do
+    test "with single invalid type" do
+      assert_raise ArgumentError,
+                   fn -> ErrorPayload.create_payload({:error, 1}) end
+    end
+
+    test "with multiple invalid types" do
+      assert_raise ArgumentError,
+                   fn ->
+                     ErrorPayload.create_payload({:error, [1, true, 1.0, :test]})
+                   end
+    end
+
+    test "with map without message" do
+      assert_raise ArgumentError,
+                   ~r/A map must have the `message` key defined to be converted to an error/,
+                   fn -> ErrorPayload.create_payload({:error, %{}}) end
+    end
+
+    test "with list with plain lists" do
+      assert_raise ArgumentError, ~r/Expected a keyword list, but got a plain list/, fn ->
+        ErrorPayload.create_payload({:error, [[1], [2]]})
+      end
+    end
+  end
 end
