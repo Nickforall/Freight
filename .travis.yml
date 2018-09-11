@@ -1,16 +1,12 @@
 language: elixir
 elixir:
-  - '1.6'
+  - '1.7'
 
 script:
- - mix format --check-formatted
- - mix test
+  - mix test --cover
+  - mix format --check-formatted
 
 notifications:
   email:
     on_success: never # default: change
     on_failure: always # default: always
-
-matrix:
-  include:
-  - elixir: '1.7'
