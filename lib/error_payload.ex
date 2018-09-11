@@ -96,7 +96,7 @@ defmodule Freight.Payload.ErrorPayload do
   end
 
   # assumes the value is confirmed to be a keyword list
-  def convert_error(keyword_list, :keywordlist) do
+  defp convert_error(keyword_list, :keywordlist) do
     message = Keyword.get(keyword_list, :message)
 
     # if :message is not defined, raise error
