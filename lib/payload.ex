@@ -28,7 +28,7 @@ defmodule Freight.Payload do
 
   def build_payload(%{errors: errors} = resolution, _config) do
     result = ErrorPayload.create_payload(errors)
-    %{ Absinthe.Resolution.put_result(resolution, {:ok, result}) | errors: [] }
+    %{Absinthe.Resolution.put_result(resolution, {:ok, result}) | errors: []}
   end
 
   @doc """
