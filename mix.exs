@@ -9,7 +9,12 @@ defmodule Freight.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: description(),
-      package: package()
+      package: package(),
+      docs: [
+        # The main page in the docs
+        main: "readme",
+        extras: ["README.md"]
+      ]
     ]
   end
 

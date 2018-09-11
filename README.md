@@ -1,4 +1,5 @@
 # Freight
+![https://api.travis-ci.com/Nickforall/Freight.svg?branch=master](https://api.travis-ci.com/Nickforall/Freight.svg?branch=master)
 
 **HEADS UP: version 0.2.0 will have major breaking changes regarding the `errors` array, but will not have a major breaking semver version bump**
 
