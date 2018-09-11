@@ -4,6 +4,23 @@ defmodule Freight.Payload do
   alias Freight.Payload.ErrorPayload
   alias Freight.Payload.SuccessPayload
 
+  @doc """
+    Absinthe middleware function that creates a payload
+
+    ## Usage:
+
+    Below shows the usage in an absinthe scheme
+
+    ```elixir
+      @desc "Delete a comment"
+      field :delete_comment, :comment_delete_payload do
+        arg(:id, non_null(:id))
+        resolve(&CommentsResolver.delete_comment/3)
+
+        middleware(&build_payload/2)
+      end
+    ```
+  """
   def build_payload(%{value: value, errors: []} = resolution, _config) do
     result = SuccessPayload.create_payload(value)
     Absinthe.Resolution.put_result(resolution, {:ok, result})
@@ -13,9 +30,6 @@ defmodule Freight.Payload do
     result = ErrorPayload.create_payload(errors)
     Absinthe.Resolution.put_result(resolution, {:ok, result})
   end
-
-  def build_payload(_),
-    do: raise(ArgumentError, "Expected a tuple with either {:ok, _} or {:error, _}")
 
   @doc """
   Defines a payload object type with a given name and fields
