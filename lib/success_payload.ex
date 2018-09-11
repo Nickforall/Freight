@@ -1,4 +1,8 @@
 defmodule Freight.Payload.SuccessPayload do
+  @base_success_payload %{
+    successful: true
+  }
+
   @doc """
   Manually generates a map representing a successful object.
 
@@ -8,7 +12,7 @@ defmodule Freight.Payload.SuccessPayload do
   ## Usage
 
     ```elixir
-      create_payload({:ok, user: %User{}})
+      create_payload(user: %User{})
     ```
 
     will return the following map
@@ -20,22 +24,22 @@ defmodule Freight.Payload.SuccessPayload do
     }
     ```
   """
-  def create_payload({:ok, list}) when is_list(list) do
+  def create_payload(list) when is_list(list) do
     unless Keyword.keyword?(list),
-      do: raise(ArgumentError, "You must supply a keyword list or object in an ok tuple.")
+      do: raise(ArgumentError, "You must supply a keyword list or object to build a payload")
 
     Enum.into(list, %{})
-    |> Map.merge(%{
-      successful: true
-    })
+    |> Map.merge(@base_success_payload)
   end
 
-  def create_payload({:ok, map}) when is_map(map) do
-    Map.merge(map, %{
-      successful: true
-    })
+  def create_payload(map) when is_map(map) do
+    Map.merge(map, @base_success_payload)
+  end
+
+  def create_payload(nil) do
+    @base_success_payload
   end
 
   def create_payload(_),
-    do: raise(ArgumentError, "You must supply a keyword list or object in an ok tuple.")
+    do: raise(ArgumentError, "You must supply a keyword list or object to build a payload")
 end

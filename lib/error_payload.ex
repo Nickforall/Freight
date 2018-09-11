@@ -6,7 +6,7 @@ defmodule Freight.Payload.ErrorPayload do
   ## Usage
 
     ```elixir
-      create_payload({:error, ["You are not signed in", "Something else"]})
+      create_payload(["You are not signed in", "Something else"])
     ```
 
     will return the following map
@@ -18,23 +18,23 @@ defmodule Freight.Payload.ErrorPayload do
     }
     ```
   """
-  def create_payload({:error, string}) when is_binary(string) do
+  def create_payload(string) when is_binary(string) do
     error_payload([string])
   end
 
-  def create_payload({:error, list}) when is_list(list) do
+  def create_payload(list) when is_list(list) do
     cond do
       Keyword.keyword?(list) -> error_payload([convert_error(list, :keywordlist)])
       true -> error_payload(Enum.map(list, fn x -> convert_error(x) end))
     end
   end
 
-  def create_payload({:error, map}) when is_map(map) do
+  def create_payload(map) when is_map(map) do
     error_payload([convert_error(map)])
   end
 
   # matches if none of the above match
-  def create_payload({:error, value}) do
+  def create_payload(value) do
     raise ArgumentError,
           raise_message(
             :error,
@@ -42,14 +42,17 @@ defmodule Freight.Payload.ErrorPayload do
           )
   end
 
-  # convert_error is used to convert a single value into something that fits in the error array
+  @doc """
+  Converts any valid error value to an error object that can be supplied to the array of errors
+  in a payload
+  """
   # strings
-  defp convert_error(string) when is_binary(string) do
+  def convert_error(string) when is_binary(string) do
     string
   end
 
   # maps
-  defp convert_error(map) when is_map(map) do
+  def convert_error(map) when is_map(map) do
     message = Map.get(map, :message)
 
     # if :message is not defined, raise error
@@ -67,7 +70,7 @@ defmodule Freight.Payload.ErrorPayload do
   end
 
   # keyword lists, rejects normal lists
-  defp convert_error(list) when is_list(list) do
+  def convert_error(list) when is_list(list) do
     cond do
       Keyword.keyword?(list) ->
         convert_error(list, :keywordlist)
@@ -84,7 +87,7 @@ defmodule Freight.Payload.ErrorPayload do
   end
 
   # matches if none of the above match
-  defp convert_error(value) do
+  def convert_error(value) do
     raise ArgumentError,
           raise_message(
             :error,
@@ -93,7 +96,7 @@ defmodule Freight.Payload.ErrorPayload do
   end
 
   # assumes the value is confirmed to be a keyword list
-  defp convert_error(keyword_list, :keywordlist) do
+  def convert_error(keyword_list, :keywordlist) do
     message = Keyword.get(keyword_list, :message)
 
     # if :message is not defined, raise error

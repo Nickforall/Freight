@@ -5,7 +5,7 @@ defmodule Freight.UnitTests.SuccessPayloadTest do
 
   describe "success payload succesfully converts" do
     test "ok tuple with keyword list" do
-      map = SuccessPayload.create_payload({:ok, user: "user", comment: %{body: "yo"}})
+      map = SuccessPayload.create_payload(user: "user", comment: %{body: "yo"})
 
       assert Map.get(map, :user) == "user"
       assert Map.get(map, :comment) == %{body: "yo"}
@@ -14,7 +14,7 @@ defmodule Freight.UnitTests.SuccessPayloadTest do
     end
 
     test "ok tuple with map" do
-      map = SuccessPayload.create_payload({:ok, %{user: "user", comment: %{body: "yo"}}})
+      map = SuccessPayload.create_payload(%{user: "user", comment: %{body: "yo"}})
 
       assert Map.get(map, :user) == "user"
       assert Map.get(map, :comment) == %{body: "yo"}
