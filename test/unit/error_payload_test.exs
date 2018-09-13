@@ -70,6 +70,12 @@ defmodule Freight.UnitTests.ErrorPayloadTest do
                    fn -> ErrorPayload.create_payload(%{}) end
     end
 
+    test "with keyword list without message" do
+      assert_raise ArgumentError,
+                   ~r/A keyword list must have the `message` key defined to be converted to an error/,
+                   fn -> ErrorPayload.create_payload(test: 1) end
+    end
+
     test "with list with plain lists" do
       assert_raise ArgumentError, ~r/Expected a keyword list, but got a plain list/, fn ->
         ErrorPayload.create_payload([[1], [2]])
