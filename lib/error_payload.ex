@@ -1,4 +1,6 @@
 defmodule Freight.Payload.ErrorPayload do
+  alias Freight.Integrations
+
   @doc """
   Manually generates a map representing a generic unsuccessful object.
   All customized result fields will not be defined, and thus returned as nil
@@ -22,10 +24,14 @@ defmodule Freight.Payload.ErrorPayload do
     error_payload([string])
   end
 
+  def create_payload(%Ecto.Changeset{} = changeset) do
+    error_payload(convert_error(changeset))
+  end
+
   def create_payload(list) when is_list(list) do
     cond do
       Keyword.keyword?(list) -> error_payload([convert_error(list, :keywordlist)])
-      true -> error_payload(Enum.map(list, fn x -> convert_error(x) end))
+      true -> error_payload(Enum.reduce(list, [], &error_list_reducer/2))
     end
   end
 
@@ -42,6 +48,19 @@ defmodule Freight.Payload.ErrorPayload do
           )
   end
 
+  # reduces potential lists of errors to a single list of errors
+  defp error_list_reducer(value, accumulator) do
+    error = convert_error(value)
+
+    cond do
+      is_list(error) ->
+        accumulator ++ error
+
+      true ->
+        accumulator ++ [error]
+    end
+  end
+
   @doc """
   Converts any valid error value to an error object that can be supplied to the array of errors
   in a payload
@@ -49,6 +68,10 @@ defmodule Freight.Payload.ErrorPayload do
   # strings
   def convert_error(string) when is_binary(string) do
     string
+  end
+
+  def convert_error(%Ecto.Changeset{} = changeset) do
+    Integrations.Ecto.convert_error(changeset)
   end
 
   # maps

@@ -29,6 +29,7 @@ defmodule Freight.MixProject do
   defp deps do
     [
       {:absinthe, "~> 1.3"},
+      {:ecto, "~> 2.2"},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
