@@ -66,7 +66,7 @@ defmodule Freight.Payload do
         )
 
         field(:errors,
-          type: list_of(:string),
+          type: non_null(list_of(:string)),
           description: "A list of errors, raised when executing this migrations."
         )
 

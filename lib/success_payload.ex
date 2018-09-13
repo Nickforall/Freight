@@ -1,6 +1,7 @@
 defmodule Freight.Payload.SuccessPayload do
   @base_success_payload %{
-    successful: true
+    successful: true,
+    errors: []
   }
 
   @doc """
