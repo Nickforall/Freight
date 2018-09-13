@@ -9,7 +9,7 @@ defmodule Freight.UnitTests.SuccessPayloadTest do
 
       assert Map.get(map, :user) == "user"
       assert Map.get(map, :comment) == %{body: "yo"}
-      assert is_nil(Map.get(map, :errors))
+      assert Map.get(map, :errors) |> Enum.empty?()
       assert Map.get(map, :successful) == true
     end
 
@@ -18,14 +18,14 @@ defmodule Freight.UnitTests.SuccessPayloadTest do
 
       assert Map.get(map, :user) == "user"
       assert Map.get(map, :comment) == %{body: "yo"}
-      assert is_nil(Map.get(map, :errors))
+      assert Map.get(map, :errors) |> Enum.empty?()
       assert Map.get(map, :successful) == true
     end
 
     test "ok tuple with nil" do
       map = SuccessPayload.create_payload(nil)
 
-      assert is_nil(Map.get(map, :errors))
+      assert Map.get(map, :errors) |> Enum.empty?()
       assert Map.get(map, :successful) == true
     end
   end
