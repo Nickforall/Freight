@@ -2,6 +2,7 @@ defmodule Freight.UnitTests.Integrations.EctoTest do
   use ExUnit.Case, async: true
 
   import Ecto.Changeset
+  import Freight.Helpers.Test
 
   alias Freight.Integrations
   alias Freight.Payload.ErrorPayload
@@ -71,10 +72,9 @@ defmodule Freight.UnitTests.Integrations.EctoTest do
           })
         )
 
-      assert Map.get(payload, :errors) == [
-               "email can't be blank",
-               "name should be at least 2 character(s)"
-             ]
+      payload
+      |> assert_has_error?("email can't be blank")
+      |> assert_has_error?("name should be at least 2 character(s)")
     end
 
     test "converts a changelist combined with other errors to a list of errors" do
@@ -87,11 +87,10 @@ defmodule Freight.UnitTests.Integrations.EctoTest do
           "Hello, world"
         ])
 
-      assert Map.get(payload, :errors) == [
-               "email can't be blank",
-               "name should be at least 2 character(s)",
-               "Hello, world"
-             ]
+      payload
+      |> assert_has_error?("email can't be blank")
+      |> assert_has_error?("name should be at least 2 character(s)")
+      |> assert_has_error?("Hello, world")
     end
   end
 end

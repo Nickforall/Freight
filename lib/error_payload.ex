@@ -21,7 +21,7 @@ defmodule Freight.Payload.ErrorPayload do
     ```
   """
   def create_payload(string) when is_binary(string) do
-    error_payload([string])
+    error_payload([convert_error(string)])
   end
 
   def create_payload(%Ecto.Changeset{} = changeset) do
@@ -67,11 +67,12 @@ defmodule Freight.Payload.ErrorPayload do
   """
   # strings
   def convert_error(string) when is_binary(string) do
-    string
+    error_object(string)
   end
 
+  # changesets
   def convert_error(%Ecto.Changeset{} = changeset) do
-    Integrations.Ecto.convert_error(changeset)
+    Enum.map(Integrations.Ecto.convert_error(changeset), fn x -> convert_error(x) end)
   end
 
   # maps
@@ -89,7 +90,7 @@ defmodule Freight.Payload.ErrorPayload do
           )
         )
 
-    message
+    map
   end
 
   # keyword lists, rejects normal lists
@@ -133,7 +134,14 @@ defmodule Freight.Payload.ErrorPayload do
           )
         )
 
-    message
+    # transform to object
+    Enum.into(keyword_list, %{})
+  end
+
+  defp error_object(string) when is_binary(string) do
+    %{
+      message: string
+    }
   end
 
   # helper to build an error payload value

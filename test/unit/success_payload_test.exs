@@ -1,20 +1,27 @@
 defmodule Freight.UnitTests.SuccessPayloadTest do
   use ExUnit.Case, async: true
 
+  import Freight.Helpers.Test
+
   alias Freight.Payload.SuccessPayload
 
   describe "success payload succesfully converts" do
     test "ok tuple with keyword list" do
       map = SuccessPayload.create_payload(user: "user", comment: %{body: "yo"})
 
+      map
+      |> assert_successful?()
+
       assert Map.get(map, :user) == "user"
       assert Map.get(map, :comment) == %{body: "yo"}
       assert Map.get(map, :errors) |> Enum.empty?()
-      assert Map.get(map, :successful) == true
     end
 
     test "ok tuple with map" do
       map = SuccessPayload.create_payload(%{user: "user", comment: %{body: "yo"}})
+
+      map
+      |> assert_successful?()
 
       assert Map.get(map, :user) == "user"
       assert Map.get(map, :comment) == %{body: "yo"}
@@ -25,8 +32,10 @@ defmodule Freight.UnitTests.SuccessPayloadTest do
     test "ok tuple with nil" do
       map = SuccessPayload.create_payload(nil)
 
+      map
+      |> assert_successful?()
+
       assert Map.get(map, :errors) |> Enum.empty?()
-      assert Map.get(map, :successful) == true
     end
   end
 

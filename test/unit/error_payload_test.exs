@@ -3,40 +3,44 @@ defmodule Freight.UnitTests.ErrorPayloadTest do
 
   alias Freight.Payload.ErrorPayload
 
+  import Freight.Helpers.Test
+
   describe "error payload succeeds" do
     test "with single string" do
       map = ErrorPayload.create_payload("Hello, world")
 
-      assert Map.get(map, :errors) == ["Hello, world"]
-      assert Map.get(map, :successful) == false
+      map
+      |> assert_has_error?("Hello, world")
     end
 
     test "with multiple strings" do
       map = ErrorPayload.create_payload(["Hello, world", "Bye, mars"])
 
-      assert Map.get(map, :errors) == ["Hello, world", "Bye, mars"]
-      assert Map.get(map, :successful) == false
+      map
+      |> assert_has_error?("Hello, world")
+      |> assert_has_error?("Bye, mars")
     end
 
     test "with map" do
       map = ErrorPayload.create_payload(%{message: "test? hello?"})
 
-      assert Map.get(map, :errors) == ["test? hello?"]
-      assert Map.get(map, :successful) == false
+      map
+      |> assert_has_error?("test? hello?")
     end
 
     test "with multiple maps" do
       map = ErrorPayload.create_payload([%{message: "test"}, %{message: "sup there"}])
 
-      assert Map.get(map, :errors) == ["test", "sup there"]
-      assert Map.get(map, :successful) == false
+      map
+      |> assert_has_error?("test")
+      |> assert_has_error?("sup there")
     end
 
     test "with keyword list" do
       map = ErrorPayload.create_payload(message: "hello, testy world")
 
-      assert Map.get(map, :errors) == ["hello, testy world"]
-      assert Map.get(map, :successful) == false
+      map
+      |> assert_has_error?("hello, testy world")
     end
 
     test "with multiple keyword lists" do
@@ -46,8 +50,9 @@ defmodule Freight.UnitTests.ErrorPayloadTest do
           [message: "why would one want this"]
         ])
 
-      assert Map.get(map, :errors) == ["hello, testy world", "why would one want this"]
-      assert Map.get(map, :successful) == false
+      map
+      |> assert_has_error?("hello, testy world")
+      |> assert_has_error?("why would one want this")
     end
   end
 
