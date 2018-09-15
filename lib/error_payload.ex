@@ -1,6 +1,12 @@
 defmodule Freight.Payload.ErrorPayload do
   alias Freight.Integrations
 
+  @moduledoc """
+  Error payloads are payloads that are created when an :error tuple has been returned.
+
+  Their `successful` property is always set to `false`.
+  """
+
   @doc """
   Manually generates a map representing a generic unsuccessful object.
   All customized result fields will not be defined, and thus returned as nil

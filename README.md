@@ -8,6 +8,15 @@ Freight is a library for [Absinthe GraphQL](http://absinthe-graphql.org/) that h
 
 It is heavily inspired by [Kronky](https://github.com/Ethelo/kronky), I decided to build my own library because I did not like how much it is focussed on ecto changesets, and missed customisability that was required for a project I work on.
 
+## Configuration
+
+You can set a custom error object that will be returned in the errors array in your payloads. This object must be defined in the schemna you're calling `define_payload` from.
+
+```elixir
+config :freight,
+  error_object: :user_error
+```
+
 ## Usage
 
 Below is a documented example of how to define Freight payloads in your schema

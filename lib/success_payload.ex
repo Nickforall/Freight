@@ -1,4 +1,10 @@
 defmodule Freight.Payload.SuccessPayload do
+  @moduledoc """
+  Success payloads are payloads that are created when an :ok tuple has been returned.
+
+  Their `successful` property is always set to `true`.
+  """
+
   @base_success_payload %{
     successful: true,
     errors: []
