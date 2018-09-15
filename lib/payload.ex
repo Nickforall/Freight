@@ -5,21 +5,21 @@ defmodule Freight.Payload do
   alias Freight.Payload.SuccessPayload
 
   @doc """
-    Absinthe middleware function that creates a payload
+  Absinthe middleware function that creates a payload
 
-    ## Usage:
+  ## Usage
 
-    Below shows the usage in an absinthe scheme
+  Below shows the usage in an absinthe scheme
 
-    ```elixir
-      @desc "Delete a comment"
-      field :delete_comment, :comment_delete_payload do
-        arg(:id, non_null(:id))
-        resolve(&CommentsResolver.delete_comment/3)
+  ```elixir
+    @desc "Delete a comment"
+    field :delete_comment, :comment_delete_payload do
+      arg(:id, non_null(:id))
+      resolve(&CommentsResolver.delete_comment/3)
 
-        middleware(&build_payload/2)
-      end
-    ```
+      middleware(&build_payload/2)
+    end
+  ```
   """
   def build_payload(%{value: value, errors: []} = resolution, _config) do
     result = SuccessPayload.create_payload(value)
@@ -115,7 +115,7 @@ defmodule Freight.Payload do
       # define the payload
       object unquote(name) do
         field(:successful,
-          type: :boolean,
+          type: non_null(:boolean),
           description: "Indicates whether the mutation completed successfully or not."
         )
 
