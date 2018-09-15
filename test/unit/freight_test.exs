@@ -6,6 +6,8 @@ defmodule Freight.UnitTests.FreightTest do
       Application.put_env(:freight, :error_object, :test)
 
       assert Freight.error_object() == :test
+
+      Application.put_env(:freight, :error_object, nil)
     end
   end
 end
