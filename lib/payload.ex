@@ -99,13 +99,18 @@ defmodule Freight.Payload do
   defmacro define_payload(name, fields \\ []) do
     quote location: :keep do
       # if there hasn't been a error object defined, we define the default one
-      unquote do
+      unquote(
         if is_nil(Freight.error_object()) do
+          # I tried calling build_error_object_default/0 but this broke for some reason :(
+          Application.put_env(:freight, :error_object, :payload_error)
+
           quote do
-            build_error_object_default()
+            object :payload_error do
+              field(:message, type: :string)
+            end
           end
         end
-      end
+      )
 
       # define the payload
       object unquote(name) do
