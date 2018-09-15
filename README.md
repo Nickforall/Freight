@@ -1,8 +1,5 @@
 # Freight
 ![https://api.travis-ci.com/Nickforall/Freight.svg?branch=master](https://api.travis-ci.com/Nickforall/Freight.svg?branch=master)
-
-**HEADS UP: version 0.2.0 will have major breaking changes regarding the `errors` array, but will not have a major breaking semver version bump**
-
     
 Freight is a library for [Absinthe GraphQL](http://absinthe-graphql.org/) that helps you build mutation payload results. Inspired by the GraphQL APIs of [GitHub](https://developer.github.com/v4/breaking_changes/) and [Shopify](https://gist.github.com/swalkinshaw/3a33e2d292b60e68fcebe12b62bbb3e2), who also aim to keep syntactical GraphQL errors, like missing fields and malformed queries, seperate from validation and other business logic errors.
 
@@ -10,7 +7,7 @@ It is heavily inspired by [Kronky](https://github.com/Ethelo/kronky), I decided 
 
 ## Configuration
 
-You can set a custom error object that will be returned in the errors array in your payloads. This object must be defined in the schemna you're calling `define_payload` from.
+You can set a custom error object that will be returned in the errors array in your payloads. This object must be defined in the schema you're calling `define_payload` from.
 
 ```elixir
 config :freight,
