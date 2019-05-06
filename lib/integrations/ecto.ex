@@ -17,10 +17,17 @@ defmodule Freight.Integrations.Ecto do
     |> build_error_list()
   end
 
+  defp safe_to_string(term) do
+    case String.Chars.impl_for(term) do
+      nil -> inspect(term)
+      _ -> to_string(term)
+    end
+  end
+
   # https://hexdocs.pm/ecto/Ecto.Changeset.html#traverse_errors/2
   defp traverse_errors_map({msg, opts}) do
     Enum.reduce(opts, msg, fn {key, value}, acc ->
-      String.replace(acc, "%{#{key}}", to_string(value))
+      String.replace(acc, "%{#{key}}", safe_to_string(value))
     end)
   end
 
