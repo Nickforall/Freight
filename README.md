@@ -76,7 +76,7 @@ Add the following to your `mix.exs file`
 ```elixir
 def deps do
   [
-    {:freight, "~> 0.1.0"}
+    {:freight, "~> 0.4.0"}
   ]
 end
 ```
