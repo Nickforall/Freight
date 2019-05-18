@@ -15,13 +15,15 @@ defmodule Freight.UnitTests.Integrations.EctoTest do
       field(:email, :string)
       field(:name, :string)
       field(:age, :integer)
+      field(:is_admin, :boolean, default: false)
     end
 
     def changeset(user, params \\ %{}) do
       user
-      |> cast(params, [:email, :name, :age])
+      |> cast(params, [:email, :name, :age, :is_admin])
       |> validate_required([:email, :name, :age])
       |> validate_length(:name, min: 2)
+      |> validate_inclusion(:is_admin, [false])
       |> validate_inclusion(:age, 21..100, message: "You are not old enough!")
     end
   end
@@ -59,6 +61,23 @@ defmodule Freight.UnitTests.Integrations.EctoTest do
         |> Integrations.Ecto.convert_error()
 
       assert errors == ["name should be at least 2 character(s)"]
+    end
+
+    test "lower camelizes field when `lower_camelize_field_name` = true" do
+      Application.put_env(:freight, :lower_camelize_field_name, true)
+
+      errors =
+        User.changeset(%User{}, %{
+          age: 21,
+          email: "nick@awkward.co",
+          name: ".",
+          is_admin: true
+        })
+        |> Integrations.Ecto.convert_error()
+
+      assert errors == ["isAdmin is invalid", "name should be at least 2 character(s)"]
+
+      Application.put_env(:freight, :lower_camelize_field_name, false)
     end
   end
 

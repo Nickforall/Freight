@@ -1,6 +1,7 @@
 # Freight
+
 ![https://api.travis-ci.com/Nickforall/Freight.svg?branch=master](https://api.travis-ci.com/Nickforall/Freight.svg?branch=master)
-    
+
 Freight is a library for [Absinthe GraphQL](http://absinthe-graphql.org/) that helps you build mutation payload results. Inspired by the GraphQL APIs of [GitHub](https://developer.github.com/v4/breaking_changes/) and [Shopify](https://gist.github.com/swalkinshaw/3a33e2d292b60e68fcebe12b62bbb3e2), who also aim to keep syntactical GraphQL errors, like missing fields and malformed queries, seperate from validation and other business logic errors.
 
 It is heavily inspired by [Kronky](https://github.com/Ethelo/kronky), I decided to build my own library because I did not like how much it is focussed on ecto changesets, and missed customisability that was required for a project I work on.
@@ -12,6 +13,8 @@ You can set a custom error object that will be returned in the errors array in y
 ```elixir
 config :freight,
   error_object: :user_error
+  # whenever a field is snake-cased (like an ecto field for example), setting this to `true` will camelize it like Absinthe would
+  lower_camelize_field_name: true
 ```
 
 ## Usage
@@ -67,7 +70,9 @@ end
 More extensive documentation on defining errors can be found in the [documentation](https://hexdocs.pm/freight)
 
 ## Installation
+
 Add the following to your `mix.exs file`
+
 ```elixir
 def deps do
   [
@@ -77,4 +82,3 @@ end
 ```
 
 Documentation can be found at [https://hexdocs.pm/freight](https://hexdocs.pm/freight).
-

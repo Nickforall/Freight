@@ -5,4 +5,11 @@ defmodule Freight do
   def error_object do
     Application.get_env(:freight, :error_object, nil)
   end
+
+  @doc """
+  Gets a boolean defining whether Freight should lower camelize field names prepended on errors, as by Absinthe convention
+  """
+  def lower_camelize_field_name? do
+    Application.get_env(:freight, :lower_camelize_field_name, false)
+  end
 end
