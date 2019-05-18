@@ -1,6 +1,7 @@
 language: elixir
 elixir:
   - '1.7'
+  - '1.8'
 
 script:
   - mix test --cover
