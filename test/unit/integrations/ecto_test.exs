@@ -22,7 +22,7 @@ defmodule Freight.UnitTests.Integrations.EctoTest do
       |> cast(params, [:email, :name, :age])
       |> validate_required([:email, :name, :age])
       |> validate_length(:name, min: 2)
-      |> validate_inclusion(:age, 21..100)
+      |> validate_inclusion(:age, 21..100, message: "You are not old enough!")
     end
   end
 
@@ -36,7 +36,7 @@ defmodule Freight.UnitTests.Integrations.EctoTest do
         })
         |> Integrations.Ecto.convert_error()
 
-      assert errors == ["age is invalid"]
+      assert errors == ["You are not old enough!"]
     end
 
     test "succeeds with multiple changeset errors" do
@@ -46,7 +46,7 @@ defmodule Freight.UnitTests.Integrations.EctoTest do
         })
         |> Integrations.Ecto.convert_error()
 
-      assert errors = ["email can't be blank", "name can't be blank"]
+      assert errors == ["email can't be blank", "name can't be blank"]
     end
 
     test "successfully deals with variables in changeset errors" do
