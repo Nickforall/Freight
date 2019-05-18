@@ -20,6 +20,10 @@ defmodule Freight.Integrations.Ecto do
   end
 
   # converts to string without raising
+  defp safe_to_string(term) when is_list(term) and not is_binary(term) do
+    inspect(term)
+  end
+
   defp safe_to_string(term) do
     case String.Chars.impl_for(term) do
       nil -> inspect(term)
