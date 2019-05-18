@@ -1,8 +1,6 @@
 defmodule Freight.Integrations.Ecto do
   @moduledoc """
-  The ecto integration converts ecto changesets into error messages.
-
-  You can pass a changeset as an error message, and Freight will interpret it and list its errors.
+  The ecto integration converts Ecto changeset errors into error messages.
   """
 
   import Ecto.Changeset, only: [traverse_errors: 2]
