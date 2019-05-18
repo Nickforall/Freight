@@ -37,7 +37,14 @@ defmodule Freight.Integrations.Ecto do
 
       false ->
         msg = reduce_options_onto_message(error)
-        Enum.join([Atom.to_string(field), msg], " ")
+        Enum.join([field_name_to_string(field), msg], " ")
+    end
+  end
+
+  defp field_name_to_string(field) do
+    case Freight.lower_camelize_field_name?() do
+      true -> field |> Atom.to_string() |> Absinthe.Utils.camelize(lower: true)
+      false -> Atom.to_string(field)
     end
   end
 
