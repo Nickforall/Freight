@@ -10,6 +10,11 @@ defmodule Freight.Payload.SuccessPayload do
     errors: []
   }
 
+  @incorrect_payload_error """
+  You must supply a keyword list or object to build a payload.
+  If you don't want to return any payload values, supply `nil`.
+  """
+
   @doc """
   Manually generates a map representing a successful object.
 
@@ -33,7 +38,7 @@ defmodule Freight.Payload.SuccessPayload do
   """
   def create_payload(list) when is_list(list) do
     unless Keyword.keyword?(list),
-      do: raise(ArgumentError, "You must supply a keyword list or object to build a payload")
+      do: raise(ArgumentError, @incorrect_payload_error)
 
     Enum.into(list, %{})
     |> Map.merge(@base_success_payload)
@@ -48,5 +53,5 @@ defmodule Freight.Payload.SuccessPayload do
   end
 
   def create_payload(_),
-    do: raise(ArgumentError, "You must supply a keyword list or object to build a payload")
+    do: raise(ArgumentError, @incorrect_payload_error)
 end
